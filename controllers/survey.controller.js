@@ -18,7 +18,7 @@ class SurveyController extends Controller {
     }
 
     async success(req, res) {
-        let response_data = await SurveyModel.getSurvey();
+        let response_data = await new SurveyModel().getSurvey();
 		this.page_params.PAGE.title = "Success!";
         this.page_params.PAGE.view = "success";
         this.page_params.PAGE.data = response_data;
@@ -29,7 +29,7 @@ class SurveyController extends Controller {
     }
 
     async process(req, res) {
-        await SurveyModel.createSurvey(req.body.name, req.body.dojo_location, req.body.fave_lang, req.body.comment);
+        await new SurveyModel().createSurvey(req.body.name, req.body.dojo_location, req.body.fave_lang, req.body.comment);
         res.redirect("/success");
     }
 }

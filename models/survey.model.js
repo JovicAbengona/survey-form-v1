@@ -1,6 +1,6 @@
-const Mysql = require('mysql');
-const Model 				= require('./model');
-const Constants 			= require('../config/constants');
+const Mysql = require('mysql2');
+const Model = require('./model');
+const Constants = require('../config/constants');
 
 class SurveyModel extends Model {
 	constructor() {
@@ -8,11 +8,11 @@ class SurveyModel extends Model {
 		this.captcha = this.generateCaptcha();
 	}
 
-	async getSurvey() {
-		let response_data 	    = {status: false, result: [], err: null};
+	async getSurvey(){
+		let response_data = {status: false, result: [], err: null};
 		
 		try{
-			let get_survey_query 		= Mysql.format(`
+			let get_survey_query = Mysql.format(`
 				SELECT surveys.id, surveys.name, surveys.location, surveys.favorite_language, surveys.comment
 				FROM surveys
 				ORDER BY surveys.id DESC
@@ -22,14 +22,14 @@ class SurveyModel extends Model {
 			let [get_survey_result] = await this.executeQuery(get_survey_query);
 	
 			if(get_survey_result){
-				response_data.status 	= true;
-				response_data.result 	= get_survey_result;
+				response_data.status = true;
+				response_data.result = get_survey_result;
 			}else{
-				response_data.message 	= "No survey found";
+				response_data.message = "No survey found";
 			}
 		}catch(err){
-			response_data.err 			= err;
-			response_data.message 		= "Error in getting a survey.";
+			response_data.err = err;
+			response_data.message = "Error in getting a survey.";
 		};
 	
 		return response_data;		
